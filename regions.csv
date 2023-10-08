@@ -1,0 +1,8 @@
+r_region_name,r_generation,r_fire_starter,r_water_starter,r_grass_starter,r_box_legendaries
+Kanto,1,Charmander,Squirtle,Bulbasaur,"['Articuno', 'Zapdos', 'Moltres']"
+Johto,2,Cyndaquil,Totodile,Chikorita,"['Ho-oh', 'Lugia']"
+Hoenn,3,Torchic,Mudkip,Treeko,"['Kyogre', 'Groudon', 'Rayquaza']"
+Sinnoh,4,Chimchar,Piplup,Turtwig,"['Dialga', 'Palkia', 'Giratina']"
+Unova,5,Tepig,Oshawott,Snivy,"['Zekrom', 'Reshiram', 'Kyurem']"
+Kalos,6,Fennekin,Froakie,Chespin,"['Xerneas', 'Yveltal', 'Zygarde']"
+Alola,7,Litten,Popplio,Rowlet,"['Solgaleo', 'Lunala', 'Necrozma']"
