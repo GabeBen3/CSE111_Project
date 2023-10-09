@@ -71,6 +71,7 @@ CREATE TABLE moves(
     m_acc INT,
     m_pp INT, 
     m_prob INT,
+    m_tm TEXT,
     m_gen INT
 );
 
