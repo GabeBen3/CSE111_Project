@@ -162,6 +162,10 @@ def viewIndPokemon(pokemonName):
                         FROM pokemon
                         WHERE p_name = ?;
                     """
+    
+    abilitiesQuery = """SELECT pa_ability1, pa_ability2, pa_hidden_ability 
+                        FROM pokemon_to_abilities
+                        WHERE pa_pokemon == ? """
         
     conn = openConnection(database)
     cur = conn.cursor()
@@ -184,9 +188,12 @@ def viewIndPokemon(pokemonName):
 
     cur.execute(pokeStatsQuery, (pokemonName, ))
     _pokeStats = cur.fetchall()
+
+    cur.execute(abilitiesQuery, (pokemonName, ))
+    _pokemonAbilities = cur.fetchall()
      
      #Pass both vars to html page
-    return render_template('viewIndPokemon.html', pokeInfo = _pokeInfo, evoGroup = _evoGroup, pokeWeakness = _pokeWeakness, strongType1 = _strongType1, strongType2 = _strongType2, pokeStats = _pokeStats)
+    return render_template('viewIndPokemon.html', pokeInfo = _pokeInfo, evoGroup = _evoGroup, pokeWeakness = _pokeWeakness, strongType1 = _strongType1, strongType2 = _strongType2, pokeStats = _pokeStats, pokemonAbilities = _pokemonAbilities)
 
 @app.route('/viewAllPokemon')
 def viewAllPokemon():
