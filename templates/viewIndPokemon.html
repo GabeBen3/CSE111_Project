@@ -49,12 +49,19 @@
                 <td><a href="/viewIndPokemon/{{ row[29] }}">{{ row[29] }}</a></td>
                 <td> {{ row[28] }} </td>
                 <td> {{ row[23] }} </td>
-                <td> <img src="/static/images/typeIcons/{{row[35]}}.png" alt="Test" width="50"> {{ row[35] }} </td>
+                <td> 
+                    <a href="/viewIndType/{{ row[35]}}"> 
+                        <img src="/static/images/typeIcons/{{row[35]}}.png" alt="Test" width="50">
+                        <br>{{ row[35] }}
+                    </a>
+                </td>
         
                 <td> 
                     {% if row[36] %}
-                        <img src="/static/images/typeIcons/{{row[36]}}.png" alt="Test" width="50">
-                        {{ row[36] }}
+                        <a href="/viewIndType/{{ row[36]}}">
+                            <img src="/static/images/typeIcons/{{row[36]}}.png" alt="Test" width="50">
+                            <br>{{ row[36] }}
+                        </a>
                     {% endif %}
                 </td>
                
@@ -124,7 +131,7 @@
             {% for row in pokeWeakness %}
         
             <tr>
-                <td> <img src="/static/images/typeIcons/{{row[0]}}.png" alt="Test" width="50"> {{ row[0] }} </td>
+                <td><a href="/viewIndType/{{row[0]}}"><img src="/static/images/typeIcons/{{row[0]}}.png" alt="Test" width="50"><br>{{ row[0] }}</a></td>
                 <td>{{row[1]}} x</td>
             </tr>
         
@@ -132,7 +139,7 @@
          </table> <br>
 
          <!-- Table that shows the first type of the pokemon, and all of the pokemon weak to that type-->
-         <h3><img src="/static/images/typeIcons/{{pokeInfo[0][35]}}.png" alt="Test" width="50"> Strong Against </h3><br>
+         <h3><a href="/viewIndType/{{pokeInfo[0][35]}}"><img src="/static/images/typeIcons/{{pokeInfo[0][35]}}.png" alt="Test" width="50"><br>{{ pokeInfo[0][35] }}</a> Strong Against </h3><br>
          <table border = 1>
             <tr>
                 <th>Pokemon</th>
@@ -140,7 +147,7 @@
             {% for row in strongType1 %}
         
             <tr>
-                <td><a href="/viewIndPokemon/{{ row[0] }}"><img src="/static/images/pokemon/{{ row[0] }}.png" alt="Test" width="100"><br>{{ row[0] }}</a></td>
+                <td><a href="/viewIndPokemon/{{row[0]}}"><img src="/static/images/pokemon/{{row[0]}}.png" alt="Test" width="100"><br>{{ row[0] }}</a></td>
             </tr>
         
             {% endfor %}
@@ -148,7 +155,7 @@
 
          <!-- Table that shows the 2nd type of the pokemon(iff 2nd type exists), and all of the pokemon weak to that type-->
          {% if pokeInfo[0][36] %}
-         <h3><img src="/static/images/typeIcons/{{pokeInfo[0][36]}}.png" alt="Test" width="50"> Strong Against </h3><br>
+         <h3><a href= "/viewIndType/{{ pokeInfo[0][36] }}"><img src="/static/images/typeIcons/{{pokeInfo[0][36]}}.png" alt="Test" width="50"><br>{{ pokeInfo[0][36] }}</a> Strong Against </h3><br>
          <table border = 1>
             <tr>
                 <th>Pokemon</th>

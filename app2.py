@@ -157,6 +157,7 @@ def viewIndPokemon(pokemonName):
                             GROUP BY p.p_name;
                         """
     
+    # Query that grabs all of the stats of a pokemon from the pokemon table
     pokeStatsQuery = """SELECT p_hp, p_attack, p_defense, p_sp_attack, p_sp_defense, p_speed, p_base_total
                         FROM pokemon
                         WHERE p_name = ?;
@@ -203,6 +204,24 @@ def viewAllPokemon():
     _allPokemon = cur.fetchall()
      
     return render_template('viewAllPokemon.html', allPokemon = _allPokemon)
+
+@app.route('/viewIndType/<pokeType>')
+def viewIndType(pokeType):
+
+    query = """
+                SELECT *, ? as Type
+                FROM pokemon
+                WHERE p_type1 = ? OR p_type2 = ?
+                GROUP BY p_name;
+                """
+
+    conn = openConnection(database)
+    cur = conn.cursor()
+
+    cur .execute(query, (pokeType, pokeType, pokeType))
+    _allPokemonType = cur.fetchall()
+
+    return render_template('viewIndType.html', allPokemonType = _allPokemonType)
 
 @app.route('/viewAllTrainers')
 def viewAllTrainers():

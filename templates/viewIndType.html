@@ -19,7 +19,7 @@
     </head>
     
     <body>
-        <h1>View All Pokemon: </h1>
+        <h1>All <img src="/static/images/typeIcons/{{allPokemonType[0][42]}}.png" alt="Test" width="50"> Type Pokemon: </h1>
          <br>
          <a href = '/'><button>HomePage</button></a><br>
 
@@ -78,21 +78,26 @@
                     </tr>
                     </thead>
 
-                    {% for row in allPokemon %}
+                    {% for row in allPokemonType %}
                 
                     <tr>
                         <!-- We can pull the photo for a pokemon by using the name attribute to src the img -->
                         <td><img src="/static/images/pokemon/{{ row[29] }}.png" alt="Test" width="100"></td>
                         <td><a href="/viewIndPokemon/{{ row[29] }}">{{ row[29] }}</a></td>
                         <td> {{ row[23] }} </td>
-                        <td> <a href="/viewIndType/{{row[35]}}"><img src="/static/images/typeIcons/{{row[35]}}.png" alt="Test" width="50"><br>{{ row[35] }}</a></td>
+                        <td> 
+                            <a href="/viewIndType/{{ row[35]}}">
+                                <img src="/static/images/typeIcons/{{row[35]}}.png" alt="Test" width="50"> 
+                                <br>{{ row[35] }}
+                            </a>
+                        </td>
                         <td>
                             {% if row[36] %} 
-                                <a href="/viewIndType/{{row[36]}}">
+                                <a href="/viewIndType/{{ row[36]}}">
                                     <img src="/static/images/typeIcons/{{row[36]}}.png" alt="Test" width="50"> 
                                     <br>{{ row[36] }}
                                 </a>
-                            {% endif %} 
+                            {% endif %}
                         </td>
                     <td> {{ row[0] }} </td>
                     <td> {{ row[1] }} </td>
