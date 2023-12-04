@@ -115,19 +115,66 @@ def viewIndPokemon(pokemonName):
                         WHERE p1.p_name == ? AND 
                         p1.p_evo_species = p2.p_evo_species
                         ORDER BY p2.p_evolution_stage ASC"""
+    
+    #Third query displayed. Finds the weakness of 
+    weaknessQuery = """SELECT tc_type, MAX(tc_effectiveness) * MIN(tc_effectiveness) AS effectiveness_multiplier
+                        FROM (
+                            SELECT tc1.tc_type, tc1.tc_effectiveness
+                            FROM pokemon p
+                            JOIN typeChart tc1 ON p.p_type1 = tc1.tc_type_against
+                            WHERE p.p_name = ?
+                            UNION ALL
+
+                            SELECT tc2.tc_type, tc2.tc_effectiveness
+                            FROM pokemon p
+                            JOIN typeChart tc2 ON p.p_type2 = tc2.tc_type_against
+                            WHERE p.p_name = ?
+                        ) AS combined
+                        GROUP BY tc_type
+                        HAVING MAX(tc_effectiveness) * MIN(tc_effectiveness) >= 0;
+                    """
+    
+    strongType1Query = """
+                            SELECT p.p_name
+                            FROM pokemon p
+                            JOIN typeChart tc1 ON p.p_type1 = tc1.tc_type_against
+                            LEFT JOIN typeChart tc2 ON p.p_type2 = tc2.tc_type_against
+                            WHERE (tc1.tc_type = (SELECT p_type1 FROM pokemon WHERE p_name = ?) AND tc1.tc_effectiveness > 1)
+                            AND (p.p_type2 IS NULL OR tc2.tc_type = (SELECT p_type1 FROM pokemon WHERE p_name = ?) AND tc2.tc_effectiveness >= 1)
+                            GROUP BY p.p_name;
+                    """
+
+    strongType2Query = """
+                           SELECT p.p_name
+                            FROM pokemon p
+                            JOIN typeChart tc1 ON p.p_type1 = tc1.tc_type_against AND tc1.tc_type = (SELECT p_type2 FROM pokemon WHERE p_name = ?)
+                            LEFT JOIN typeChart tc2 ON p.p_type2 = tc2.tc_type_against AND tc2.tc_type = (SELECT p_type2 FROM pokemon WHERE p_name = ?)
+                            WHERE (tc1.tc_effectiveness > 1 AND (p.p_type2 IS NULL OR (tc2.tc_effectiveness IS NULL OR tc2.tc_effectiveness >= 1)))
+                            OR (p.p_type2 IS NOT NULL AND tc2.tc_effectiveness > 1 AND tc1.tc_effectiveness >= 1)
+                            GROUP BY p.p_name;
+                        """
         
     conn = openConnection(database)
     cur = conn.cursor()
 
+     #Need to execute seperate queries separately to obtain different list vars we can pass to the HTML page
     cur.execute(sql, (pokemonName, ))
     _pokeInfo = cur.fetchall()
 
-    #Need to execute seperate queries separately to obtain different list vars we can pass to the HTML page
     cur.execute(evoQuery, (pokemonName, ))
     _evoGroup = cur.fetchall()
+
+    cur.execute(weaknessQuery, (pokemonName, pokemonName))
+    _pokeWeakness = cur.fetchall()
+
+    cur.execute(strongType1Query, (pokemonName, pokemonName))
+    _strongType1 = cur.fetchall()
+
+    cur.execute(strongType2Query, (pokemonName, pokemonName))
+    _strongType2 = cur.fetchall()
      
      #Pass both vars to html page
-    return render_template('viewIndPokemon.html', pokeInfo = _pokeInfo, evoGroup = _evoGroup)
+    return render_template('viewIndPokemon.html', pokeInfo = _pokeInfo, evoGroup = _evoGroup, pokeWeakness = _pokeWeakness, strongType1 = _strongType1, strongType2 = _strongType2)
 
 @app.route('/viewAllPokemon')
 def viewAllPokemon():
