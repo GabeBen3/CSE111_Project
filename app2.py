@@ -116,7 +116,7 @@ def viewIndPokemon(pokemonName):
                         p1.p_evo_species = p2.p_evo_species
                         ORDER BY p2.p_evolution_stage ASC"""
     
-    #Third query displayed. Finds the weakness of 
+    #Third query displayed. Lists all of the types in alpha order. Also lists the given effectiveness multiplier of the type on the current pokemon. 
     weaknessQuery = """SELECT tc_type, MAX(tc_effectiveness) * MIN(tc_effectiveness) AS effectiveness_multiplier
                         FROM (
                             SELECT tc1.tc_type, tc1.tc_effectiveness
@@ -134,6 +134,8 @@ def viewIndPokemon(pokemonName):
                         HAVING MAX(tc_effectiveness) * MIN(tc_effectiveness) >= 0;
                     """
     
+    ### Queries to display all pokemon weak to a given type. 
+    # Type1 will be type of current pokemon.
     strongType1Query = """
                             SELECT p.p_name
                             FROM pokemon p
@@ -144,6 +146,7 @@ def viewIndPokemon(pokemonName):
                             GROUP BY p.p_name;
                     """
 
+    # If type2 != NULL then we display all pokemon weak to type2 of current pokemon
     strongType2Query = """
                            SELECT p.p_name
                             FROM pokemon p
@@ -153,6 +156,11 @@ def viewIndPokemon(pokemonName):
                             OR (p.p_type2 IS NOT NULL AND tc2.tc_effectiveness > 1 AND tc1.tc_effectiveness >= 1)
                             GROUP BY p.p_name;
                         """
+    
+    pokeStatsQuery = """SELECT p_hp, p_attack, p_defense, p_sp_attack, p_sp_defense, p_speed, p_base_total
+                        FROM pokemon
+                        WHERE p_name = ?;
+                    """
         
     conn = openConnection(database)
     cur = conn.cursor()
@@ -172,9 +180,12 @@ def viewIndPokemon(pokemonName):
 
     cur.execute(strongType2Query, (pokemonName, pokemonName))
     _strongType2 = cur.fetchall()
+
+    cur.execute(pokeStatsQuery, (pokemonName, ))
+    _pokeStats = cur.fetchall()
      
      #Pass both vars to html page
-    return render_template('viewIndPokemon.html', pokeInfo = _pokeInfo, evoGroup = _evoGroup, pokeWeakness = _pokeWeakness, strongType1 = _strongType1, strongType2 = _strongType2)
+    return render_template('viewIndPokemon.html', pokeInfo = _pokeInfo, evoGroup = _evoGroup, pokeWeakness = _pokeWeakness, strongType1 = _strongType1, strongType2 = _strongType2, pokeStats = _pokeStats)
 
 @app.route('/viewAllPokemon')
 def viewAllPokemon():
