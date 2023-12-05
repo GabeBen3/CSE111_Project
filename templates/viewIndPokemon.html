@@ -154,21 +154,24 @@
          </table> <br>
 
          <!-- Table that lists all of the types, and their effectiveness on the given pokemon-->
-         <h3>Weaknesses: </h3><br>
-         <table border = 1>
+         <h3>Weaknesses:</h3><br>
+            <table border="1">
             <tr>
-                <th>Type</th>
-                <th>Effectiveness</th>
+                {% for row in pokeWeakness %}
+                <td>
+                    <a href="/viewIndType/{{ row[0] }}">
+                        <img src="/static/images/typeIcons/{{ row[0] }}.png" alt="{{ row[0] }}" width="50">
+                        <br>{{ row[0] }}
+                    </a>
+                </td>
+                {% endfor %}
             </tr>
-            {% for row in pokeWeakness %}
-        
             <tr>
-                <td><a href="/viewIndType/{{row[0]}}"><img src="/static/images/typeIcons/{{row[0]}}.png" alt="Test" width="50"><br>{{ row[0] }}</a></td>
-                <td>{{row[1]}} x</td>
+                {% for row in pokeWeakness %}
+                <td>{{ row[1] }} x</td>
+                {% endfor %}
             </tr>
-        
-            {% endfor %}
-         </table> <br>
+            </table><br>
 
          <!-- Table that shows the first type of the pokemon, and all of the pokemon weak to that type-->
          <h3><a href="/viewIndType/{{pokeInfo[0][35]}}"><img src="/static/images/typeIcons/{{pokeInfo[0][35]}}.png" alt="Test" width="50"><br>{{ pokeInfo[0][35] }}</a> Strong Against </h3><br>
