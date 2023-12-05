@@ -49,6 +49,7 @@
                 <th>Weight (kg)</th>
                 <th>Gen #</th>
                 <th>p_is_legendary</th>
+                <th>Evolution Species</th>
                 <th>Evolution Stage</th>
             </tr>
 
@@ -85,6 +86,7 @@
                <td> {{ row[37] }} </td>
                <td> {{ row[38] }} </td>
                <td> {{ row[39] }} </td>
+               <td>PokeDex: <a href="/viewIndPokemon/{{ row[29] }}"> {{ row[40] }}</a></td>
                <td> {{ row[41] }} </td>
             </tr>
         
@@ -95,13 +97,13 @@
          <h3>Pokemon Stats: </h3><br>
          <table border = 1>
             <tr>
-                <th>hp</th>
-                <th>attack</th>
-                <th>defense</th>
-                <th>special attack</th>
-                <th>special defense</th>
-                <th>speed</th>
-                <th>Base total</th>
+                <th>HP</th>
+                <th>Attack</th>
+                <th>Defense</th>
+                <th>SP Attack</th>
+                <th>SP Defense</th>
+                <th>Speed</th>
+                <th>Base Total</th>
             </tr>
 
             {% for row in pokeStats %}
